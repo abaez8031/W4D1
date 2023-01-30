@@ -1,4 +1,5 @@
 require "byebug"
+require_relative "PolyTreeNode"
 class KnightPathFinder
 
   def self.valid_moves(positions)
@@ -30,7 +31,7 @@ class KnightPathFinder
   return res 
   end
 
-
+  attr_reader :value
   def initialize(value)
     @value = value
     @considered_positions = [value]#ex 
@@ -49,19 +50,22 @@ class KnightPathFinder
       @considered_positions += filtered_moves
       filtered_moves
   end
+  attr_accessor :root_node
 
   def build_move_tree
     self.root_node = PolyTreeNode.new(value)
     queue = [root_node]
 
-    #queue.each do |el|
-      #  queue << valid_move(el)
-      #  queue.shift 
-
-    #emd
-
-
-
+    until queue.empty?
+       cur_node = queue.shift 
+       cur_pos = cur_node.value 
+       new_move_positions(cur_pos).each do |next_pos|
+        next_node = PolyTreeNode.new(next_pos)
+        cur_node.add_child(next_node)
+        queue << next_node 
+       end
+      end
+    end
 end
 
 one = KnightPathFinder.new([0,0])

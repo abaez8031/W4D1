@@ -5,4 +5,11 @@ class PolyTreeNode
     @children=[]
     @parent =nil
  end
+
+
+ def add_child(node)
+    node.parent = self
+     
+end
+
 end
